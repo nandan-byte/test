@@ -55,14 +55,15 @@ def get_executable_path() -> str:
     """Return the actual executable binary path for launching sub-commands."""
     if getattr(sys, "frozen", False):
         exe_dir = os.path.dirname(os.path.abspath(sys.executable))
-        main_exe = os.path.join(exe_dir, "main.exe")
-        if os.path.exists(main_exe):
-            return main_exe
-        if sys.argv and sys.argv[0] and os.path.exists(sys.argv[0]) and sys.argv[0].endswith(".exe"):
-            return os.path.abspath(sys.argv[0])
-        if os.path.exists(sys.executable):
+        binary_name = "main.exe" if sys.platform == "win32" else "main"
+        main_bin = os.path.join(exe_dir, binary_name)
+        if os.path.exists(main_bin):
+            return main_bin
+        if sys.executable and os.path.exists(sys.executable):
             return sys.executable
-        return main_exe
+        if sys.argv and sys.argv[0] and os.path.exists(sys.argv[0]):
+            return os.path.abspath(sys.argv[0])
+        return main_bin
     return sys.executable
 
 

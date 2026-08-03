@@ -10,9 +10,20 @@ on:
 
 jobs:
   build:
-    name: Build for Linux (ubuntu-latest)
-    runs-on: ubuntu-latest
-        
+    name: Build for ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        include:
+          - os: windows-latest
+            artifact_name: AppSecAI-windows
+            artifact_path: AppSecAI_Installer.exe
+          - os: ubuntu-latest
+            artifact_name: AppSecAI-linux
+            artifact_path: AppSecAI_Installer_Linux.AppImage
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -28,9 +39,14 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install nuitka python-minifier
-        
+
     - name: Install Patchelf (Linux)
+      if: matrix.os == 'ubuntu-latest'
       run: sudo apt-get update && sudo apt-get install -y patchelf
+
+    - name: Install FUSE (for AppImage tooling)
+      if: matrix.os == 'ubuntu-latest'
+      run: sudo apt-get update && (sudo apt-get install -y libfuse2 || sudo apt-get install -y libfuse2t64 || true)
 
     - name: Setup Trivy
       uses: aquasecurity/setup-trivy@v0.2.6
@@ -40,19 +56,30 @@ jobs:
     - name: Prepare Trivy for Bundling
       shell: bash
       run: |
+        # Config expects it in appsecai/.bin/trivy/
         mkdir -p appsecai/.bin/trivy
         TRIVY_PATH=$(which trivy || command -v trivy)
         echo "Trivy located at: $TRIVY_PATH"
         cp "$TRIVY_PATH" appsecai/.bin/trivy/
+        if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+           # Ensure the .exe extension is present for Windows bundling
+           [[ "$TRIVY_PATH" == *.exe ]] || mv appsecai/.bin/trivy/trivy appsecai/.bin/trivy/trivy.exe 2>/dev/null || true
+        fi
+
+    - name: Build and Package (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        powershell scripts/build_windows.ps1
 
     - name: Build and Package (Linux)
+      if: matrix.os == 'ubuntu-latest'
       run: |
         bash scripts/build_linux.sh
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: AppSecAI-linux
-        path: AppSecAI_Installer_Linux.AppImage
+        name: ${{ matrix.artifact_name }}
+        path: ${{ matrix.artifact_path }}
         if-no-files-found: error
         retention-days: 7

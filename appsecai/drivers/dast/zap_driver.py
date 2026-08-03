@@ -50,20 +50,37 @@ def run_zap_command(cmd, cwd):
     )
 
 def find_project_root():
-    """Find the project root directory by looking for key files."""
-    current_dir = os.path.abspath(os.path.dirname(__file__))
+    """Find the project root directory by looking for key files or bundled folders."""
+    import sys
+    roots_to_check = []
     
-    # Look for project indicators
-    indicators = ['app_config.yaml', 'requirements.txt', '.git', 'main.py']
+    # 1. Executable directory (for Nuitka standalone / frozen executables)
+    if getattr(sys, 'frozen', False) or "__compiled__" in globals() or "__compiled__" in sys.modules:
+        if hasattr(sys, 'executable') and sys.executable:
+            roots_to_check.append(os.path.dirname(os.path.abspath(sys.executable)))
+        if sys.argv and sys.argv[0]:
+            roots_to_check.append(os.path.dirname(os.path.abspath(sys.argv[0])))
+
+    # 2. File location directory
+    if '__file__' in globals():
+        file_dir = os.path.abspath(os.path.dirname(__file__))
+        roots_to_check.append(file_dir)
+        current_dir = file_dir
+        while current_dir != os.path.dirname(current_dir):
+            current_dir = os.path.dirname(current_dir)
+            roots_to_check.append(current_dir)
+
+    # 3. Current working directory
+    roots_to_check.append(os.getcwd())
+
+    # Check candidates for indicator files/folders (prefer external/zap)
+    indicators = ['external/zap', 'external', 'app_config.yaml', 'requirements.txt', '.git', 'main.py']
+    for root in roots_to_check:
+        for indicator in indicators:
+            if os.path.exists(os.path.join(root, indicator)):
+                return root
     
-    # Start from current file's directory and go up
-    while current_dir != os.path.dirname(current_dir):  # Not at filesystem root
-        if any(os.path.exists(os.path.join(current_dir, indicator)) for indicator in indicators):
-            return current_dir
-        current_dir = os.path.dirname(current_dir)
-    
-    # Fallback to current working directory
-    return os.getcwd()
+    return roots_to_check[0] if roots_to_check else os.getcwd()
 
 def resolve_zap_installation_path(path_hint: str | None) -> tuple[str | None, str | None]:
     """Resolve the ZAP installation directory that contains zap executable.
@@ -72,6 +89,7 @@ def resolve_zap_installation_path(path_hint: str | None) -> tuple[str | None, st
     """
     try:
         project_root = find_project_root()
+        import sys
         
         # Determine the correct ZAP executable based on OS
         import platform
@@ -101,11 +119,17 @@ def resolve_zap_installation_path(path_hint: str | None) -> tuple[str | None, st
                         print(f"Warning: Could not set execute permissions on {zap_exec_hint}: {e}")
                 return abs_path_hint, zap_exec_hint
             
-        # 2) Search common locations relative to project root
+        # 2) Search common locations relative to project root and executable dir
+        exe_dir = os.path.dirname(os.path.abspath(sys.executable)) if hasattr(sys, 'executable') and sys.executable else None
         search_roots = [
             os.path.join(project_root, "external"),
             project_root,
         ]
+        if exe_dir and exe_dir not in search_roots:
+            search_roots.insert(0, os.path.join(exe_dir, "external"))
+            search_roots.insert(1, exe_dir)
+        search_roots.append(os.getcwd())
+
         for root in search_roots:
             try:
                 matches = glob(os.path.join(root, "**", zap_executable), recursive=True)
@@ -467,15 +491,15 @@ def run_zap_scan(
         if os.name == 'nt':
             installer = os.path.join(project_root, "external", "zap", "install_zap.bat")
             if os.path.exists(installer):
-                # Run from project root to ensure script's relative paths work
-                os.system(f'cmd /c "cd /d {project_root} && {installer}"')
+                import subprocess
+                subprocess.run([installer], cwd=project_root, shell=True)
             else:
                 return {"success": False, "message": "Installer script missing: " + installer, "error": "Installer script missing."}
         else:
             installer = os.path.join(project_root, "external", "zap", "install_zap.sh")
             if os.path.exists(installer):
-                # Run from project root to ensure script's relative paths work
-                os.system(f'cd {project_root} && bash {installer}')
+                import subprocess
+                subprocess.run(["bash", installer], cwd=project_root)
             else:
                 return {"success": False, "message": "Installer script missing: " + installer, "error": "Installer script missing."}
         
