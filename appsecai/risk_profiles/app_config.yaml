@@ -1,0 +1,67 @@
+input_csv: filtered_vulnerabilities.csv
+output_dir: AppSecAI_output
+llm_output_subdir: llm_vulnerability_fixes
+sonarqube_output_subdir: sonarqube_fetched_data
+sonarqube_clone_subdir: sonarqube_cloned_repos
+batch_size: 10
+commit_batch_size: 10
+pr_batch_size: 10
+github_pr:
+  token: ''
+  repo: ''
+  pr_title_prefix: AI Security Fixes
+  base_branch: main
+  clone_dir_pr: repo_clone_for_pr
+  create_issues: true
+  issue_labels:
+  - security
+  - ai-fix
+  link_issues_to_pr: true
+llm:
+  model: qwen2.5-coder:7b-instruct
+  url: http://4.247.140.236:11434/api/generate
+  timeout: 300
+  max_retries: 3
+  batch_size: 10
+vulnerability_scoring:
+  threshold_score: 5.0
+  framework_file: vulnerability_framework.json
+  compliance_file: risk_context_template.json
+security_tools:
+  sonarqube:
+    enabled: true
+    url: http://localhost:9000
+    username: admin
+    password: admin
+    project_key: caze-code-sec-ai
+  semgrep:
+    enabled: false
+    token: ''
+    project_name: ''
+    severity_filter:
+    - ERROR
+    - WARNING
+    confidence_threshold: 70
+  snyk:
+    enabled: false
+    token: ''
+    org_id: ''
+    scan_types:
+    - Code
+    severity_levels:
+    - Critical
+    - High
+  zap:
+    enabled: true
+    installation_path: ''
+    scan_policy: Default Policy
+    max_scan_time: 3600
+    spider_max_depth: 5
+  owasp_zap: &id001
+    target_url: https://www.saucedemo.com/
+    enable_passive: true
+    enable_active: true
+    enable_spider: true
+    enable_api_scan: false
+    use_auth: false
+  OWASP: *id001

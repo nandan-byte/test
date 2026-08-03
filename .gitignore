@@ -1,0 +1,69 @@
+# Security and Sensitive Files
+.env*
+app_config.yaml
+!appsecai/risk_profiles/app_config.yaml
+*.backup
+
+# Python Cache Files
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+*.cpython-*
+*.so
+
+# Output Directories
+cazelabs_output/
+vulnerability-fixes/
+generated_reports/
+cloned_repos/
+*_output_*/
+AppSecAI_output/
+build_staging/
+
+# Cloned Repositories
+caze-*_20*
+*-backend_20*
+*-ui_20*
+*-core_20*
+Caze_*_20*
+*_20??????_??????/
+
+# Generated Files
+*.csv
+*.json
+!appsec_config.json
+!appsecai/risk_profiles/context_modifiers/*.json
+
+# Virtual Environment
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Binaries
+.bin/
+trivy.exe
+
+#trivy
+
+.bin/trivy/trivy.exe
+
+# ZAP Binaries (Download-on-Demand)
+external/zap/ZAP_*/
+external/zap/*.zip
+external/zap/*.tar.gz
+
+# Keep external/ directory visible on GitHub
+!external/.gitkeep

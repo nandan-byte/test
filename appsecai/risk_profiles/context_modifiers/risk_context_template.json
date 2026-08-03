@@ -1,0 +1,1789 @@
+{
+  "AppSecAI": {
+    "product": "HireSense",
+    "version": "v1.0.0",
+    "environment": {
+      "deployment_type": "public",
+      "internet_exposure": true,
+      "api_type": "rest",
+      "https_enabled": false,
+      "data_classification": "confidential",
+      "pii_present": true,
+      "logging_audit_required": false,
+      "encryption_in_transit_required": false,
+      "encryption_at_rest_required": false,
+      "system_criticality": "high"
+    },
+    "runtime": {
+      "containerized": false,
+      "root_container": true,
+      "container_sig_enforced": false,
+      "runtime_monitoring_enabled": false,
+      "language_runtime": {
+        "python_version": "3.10",
+        "node_version": "18",
+        "go": "1.24.2",
+        "python": "3.10"
+      },
+      "service_authn": false,
+      "rate_limiting_enabled": false,
+      "memory_limits_enforced": true,
+      "cpu_limits_enforced": false
+    },
+    "security_controls": {
+      "rbac_enabled": false,
+      "waf_enabled": false,
+      "ids_enabled": false,
+      "nfw_enabled": false,
+      "sso_enabled": false,
+      "mfa_required_for_admin": false,
+      "infrastructure_as_code_scan_enabled": false,
+      "dependency_vulnerability_scan_enabled": false,
+      "container_image_scan_enabled": false,
+      "api_input_validation": false,
+      "api_authentication_required": false,
+      "secrets_vault_enabled": false,
+      "rate_limiting_enabled": false,
+      "cloud_security_posture_management": false,
+      "business_logic_testing": false,
+      "data_loss_prevention": false,
+      "network_segmentation": false,
+      "privileged_access_management": false,
+      "api_security_gateway": false,
+      "third_party_risk_assessment": true,
+      "input_validation": false,
+      "key_management_system": false
+    },
+    "sca_context": {
+      "dependency_management": {
+        "dependency_update_frequency": "monthly",
+        "lock_files_enforced": false,
+        "automated_dependency_updates": false,
+        "dependency_review_process": "none",
+        "dependency_pinning_strategy": "minor",
+        "dependency_approval_required": true,
+        "sbom_generation_enabled": false,
+        "license_compliance_checking": true,
+        "dependency_pinning": false,
+        "transitive_dependency_analysis": false,
+        "sbom_format": "none"
+      },
+      "package_sources": {
+        "private_registry_used": true,
+        "registry_mirrors_used": false,
+        "package_signature_verification": true,
+        "trusted_sources_only": true,
+        "allow_public_registries": false,
+        "registry_scanning_enabled": true,
+        "package_provenance_tracking": true
+      },
+      "dependency_usage": {
+        "unused_dependencies_present": false,
+        "dev_dependencies_in_production": false,
+        "optional_dependencies_used": true,
+        "peer_dependencies_managed": true
+      },
+      "vulnerability_response": {
+        "mean_time_to_patch": "> 30d",
+        "vulnerability_monitoring": "daily",
+        "emergency_patch_process": true,
+        "vulnerability_disclosure_policy": true,
+        "security_champion_assigned": true,
+        "vulnerability_sla_defined": true
+      },
+      "build_pipeline": {
+        "dependency_caching_used": true,
+        "build_reproducibility": true,
+        "dependency_hash_verification": true,
+        "isolated_build_environment": true,
+        "build_artifact_signing": true,
+        "supply_chain_levels_for_software_artifacts": "slsa3"
+      },
+      "runtime_behavior": {
+        "dependency_isolation": true,
+        "sandboxing_enabled": false,
+        "runtime_dependency_monitoring": true,
+        "dynamic_loading_restricted": true,
+        "native_code_dependencies": true,
+        "network_access_by_dependencies": "restricted"
+      },
+      "ecosystem": {
+        "primary_language": "javascript",
+        "package_manager": "npm",
+        "language_version_eol": false,
+        "package_manager_version": "latest",
+        "ecosystem_security_tools": [
+          "snyk",
+          "dependabot",
+          "renovate"
+        ],
+        "monorepo": false
+      },
+      "compliance": {
+        "soc2_compliance_required": true,
+        "hipaa_compliance_required": false,
+        "pci_dss_compliance_required": false,
+        "gdpr_compliance_required": false,
+        "iso_27001_compliance_required": true
+      }
+    },
+    "zap_auto_mapping": {
+      "enabled": true,
+      "alert_to_category": [
+        {
+          "alert_id": "0",
+          "alert_name": "Directory Browsing",
+          "risk_level": "Medium",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 2,
+            "EaseOfExploitation": 5
+          }
+        },
+        {
+          "alert_id": "2",
+          "alert_name": "Private IP Disclosure",
+          "risk_level": "Low",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 2,
+            "PotentialImpact": 2,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "3-1",
+          "alert_name": "Session ID in URL Rewrite",
+          "risk_level": "Medium",
+          "category": "Authentication & Session Management",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 4,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "3-2",
+          "alert_name": "Session ID in URL Rewrite",
+          "risk_level": "Medium",
+          "category": "Authentication & Session Management",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 4,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "3-3",
+          "alert_name": "Referer Exposes Session ID",
+          "risk_level": "Medium",
+          "category": "Authentication & Session Management",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 4,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "6-1",
+          "alert_name": "Path Traversal",
+          "risk_level": "High",
+          "category": "Input Validation",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 4,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "7",
+          "alert_name": "Remote File Inclusion",
+          "risk_level": "High",
+          "category": "Input Validation",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 4,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "41",
+          "alert_name": "Source Code Disclosure \u00e2\u20ac\u201c Git",
+          "risk_level": "High",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "42",
+          "alert_name": "Source Code Disclosure \u00e2\u20ac\u201c SVN",
+          "risk_level": "Medium",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "43",
+          "alert_name": "Source Code Disclosure \u00e2\u20ac\u201c File Inclusion",
+          "risk_level": "High",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "10003",
+          "alert_name": "Vulnerable JS Library",
+          "risk_level": "Medium",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 4
+          }
+        },
+        {
+          "alert_id": "10010",
+          "alert_name": "Cookie No HttpOnly Flag",
+          "risk_level": "Low",
+          "category": "Authentication & Session Management",
+          "base_scores": {
+            "Severity": 2,
+            "PotentialImpact": 4,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "10011",
+          "alert_name": "Cookie Without Secure Flag",
+          "risk_level": "Low",
+          "category": "Authentication & Session Management",
+          "base_scores": {
+            "Severity": 2,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 2
+          }
+        },
+        {
+          "alert_id": "10054",
+          "alert_name": "Cookie with SameSite Attribute None",
+          "risk_level": "Low",
+          "category": "Authentication & Session Management",
+          "base_scores": {
+            "Severity": 2,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 2
+          }
+        },
+        {
+          "alert_id": "10020-1",
+          "alert_name": "Missing Anti-clickjacking Header",
+          "risk_level": "Medium",
+          "category": "HTTP Security Headers",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "10020-2",
+          "alert_name": "Multiple X-Frame-Options Header Entries",
+          "risk_level": "Medium",
+          "category": "HTTP Security Headers",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 5
+          }
+        },
+        {
+          "alert_id": "10020-3",
+          "alert_name": "X-Frame-Options Defined via META",
+          "risk_level": "Medium",
+          "category": "HTTP Security Headers",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 5
+          }
+        },
+        {
+          "alert_id": "10020-4",
+          "alert_name": "X-Frame-Options Setting Malformed",
+          "risk_level": "Medium",
+          "category": "HTTP Security Headers",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 5
+          }
+        },
+        {
+          "alert_id": "10021",
+          "alert_name": "X-Content-Type-Options Header Missing",
+          "risk_level": "Low",
+          "category": "HTTP Security Headers",
+          "base_scores": {
+            "Severity": 2,
+            "PotentialImpact": 2,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "10023",
+          "alert_name": "Information Disclosure \u00e2\u20ac\u201c Debug Error Messages",
+          "risk_level": "Low",
+          "category": "HTTP Security Headers Info",
+          "base_scores": {
+            "Severity": 2,
+            "PotentialImpact": 2,
+            "EaseOfExploitation": 2
+          }
+        },
+        {
+          "alert_id": "10027",
+          "alert_name": "Information Disclosure - Suspicious Comments",
+          "risk_level": "Low",
+          "category": "HTTP Security Headers Info",
+          "base_scores": {
+            "Severity": 2,
+            "PotentialImpact": 2,
+            "EaseOfExploitation": 2
+          }
+        },
+        {
+          "alert_id": "10028",
+          "alert_name": "Off-site Redirect",
+          "risk_level": "High",
+          "category": "API Security",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 4,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "10032-4",
+          "alert_name": "Viewstate without MAC Signature (Unsure)",
+          "risk_level": "High",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 4
+          }
+        },
+        {
+          "alert_id": "10032-5",
+          "alert_name": "Viewstate without MAC Signature (Sure)",
+          "risk_level": "High",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 4
+          }
+        },
+        {
+          "alert_id": "10033",
+          "alert_name": "Directory Browsing",
+          "risk_level": "Medium",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 2,
+            "EaseOfExploitation": 5
+          }
+        },
+        {
+          "alert_id": "10034",
+          "alert_name": "Heartbleed OpenSSL Vulnerability",
+          "risk_level": "High",
+          "category": "Transport Security",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 2
+          }
+        },
+        {
+          "alert_id": "10035-1",
+          "alert_name": "Strict-Transport-Security Header Not Set",
+          "risk_level": "Low",
+          "category": "HTTP Security Headers",
+          "base_scores": {
+            "Severity": 2,
+            "PotentialImpact": 2,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "10096",
+          "alert_name": "Timestamp Disclosure - Unix",
+          "risk_level": "Low",
+          "category": "HTTP Security Headers",
+          "base_scores": {
+            "Severity": 2,
+            "PotentialImpact": 2,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "10035-4",
+          "alert_name": "Strict-Transport-Security Header on Plain HTTP Response",
+          "risk_level": "Informational",
+          "category": "HTTP Security Headers",
+          "base_scores": {
+            "Severity": 1,
+            "PotentialImpact": 2,
+            "EaseOfExploitation": 2
+          }
+        },
+        {
+          "alert_id": "10109",
+          "alert_name": "Modern Web Application",
+          "risk_level": "Informational",
+          "category": "HTTP Security Headers Info",
+          "base_scores": {
+            "Severity": 2,
+            "PotentialImpact": 2,
+            "EaseOfExploitation": 2
+          }
+        },
+        {
+          "alert_id": "10015",
+          "alert_name": "Re-examine Cache-control Directives",
+          "risk_level": "Informational",
+          "category": "HTTP Security Headers Info",
+          "base_scores": {
+            "Severity": 2,
+            "PotentialImpact": 2,
+            "EaseOfExploitation": 2
+          }
+        },
+        {
+          "alert_id": "10112",
+          "alert_name": "Session Management Response Identified",
+          "risk_level": "Informational",
+          "category": "HTTP Security Headers",
+          "base_scores": {
+            "Severity": 1,
+            "PotentialImpact": 2,
+            "EaseOfExploitation": 2
+          }
+        },
+        {
+          "alert_id": "10036-2",
+          "alert_name": "Server Leaks Version Information via Server Header",
+          "risk_level": "Low",
+          "category": "HTTP Security Headers",
+          "base_scores": {
+            "Severity": 2,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "10037",
+          "alert_name": "Server Leaks Info via X-Powered-By Header",
+          "risk_level": "Low",
+          "category": "HTTP Security Headers",
+          "base_scores": {
+            "Severity": 2,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "10038-1",
+          "alert_name": "Content Security Policy (CSP) Header Not Set",
+          "risk_level": "Medium",
+          "category": "HTTP Security Headers",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "10038-2",
+          "alert_name": "Obsolete Content Security Policy Header Found",
+          "risk_level": "Informational",
+          "category": "HTTP Security Headers",
+          "base_scores": {
+            "Severity": 1,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "10039",
+          "alert_name": "X-Backend-Server Header Information Leak",
+          "risk_level": "Low",
+          "category": "HTTP Security Headers",
+          "base_scores": {
+            "Severity": 2,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "10040",
+          "alert_name": "Secure Pages Include Mixed Content",
+          "risk_level": "Low",
+          "category": "Transport Security",
+          "base_scores": {
+            "Severity": 2,
+            "PotentialImpact": 4,
+            "EaseOfExploitation": 4
+          }
+        },
+        {
+          "alert_id": "10041",
+          "alert_name": "HTTP\u00e2\u2020\u2019HTTPS Insecure Transition in Form Post",
+          "risk_level": "Medium",
+          "category": "Transport Security",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 4,
+            "EaseOfExploitation": 4
+          }
+        },
+        {
+          "alert_id": "10042",
+          "alert_name": "HTTPS\u00e2\u2020\u2019HTTP Insecure Transition in Form Post",
+          "risk_level": "Medium",
+          "category": "Transport Security",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 4,
+            "EaseOfExploitation": 4
+          }
+        },
+        {
+          "alert_id": "10045-1",
+          "alert_name": "Source Code Disclosure \u00e2\u20ac\u201c /WEB-INF Folder",
+          "risk_level": "High",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "10045-2",
+          "alert_name": "Properties File Disclosure \u00e2\u20ac\u201c /WEB-INF Folder",
+          "risk_level": "High",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 2,
+            "EaseOfExploitation": 5
+          }
+        },
+        {
+          "alert_id": "10047",
+          "alert_name": "HTTPS Content Available via HTTP",
+          "risk_level": "Low",
+          "category": "Transport Security",
+          "base_scores": {
+            "Severity": 2,
+            "PotentialImpact": 4,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "10048-1",
+          "alert_name": "Remote Code Execution \u00e2\u20ac\u201c Shell Shock",
+          "risk_level": "High",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "10055-4",
+          "alert_name": "CSP: Wildcard Directive",
+          "risk_level": "Medium",
+          "category": "HTTP Security Headers",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 5
+          }
+        },
+        {
+          "alert_id": "10055-5",
+          "alert_name": "CSP: script-src unsafe-inline",
+          "risk_level": "Medium",
+          "category": "Injection",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "10055-6",
+          "alert_name": "CSP: style-src unsafe-inline",
+          "risk_level": "Medium",
+          "category": "HTTP Security Headers",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 5
+          }
+        },
+        {
+          "alert_id": "10055-7",
+          "alert_name": "CSP: script-src unsafe-hashes",
+          "risk_level": "Medium",
+          "category": "Injection",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "10055-8",
+          "alert_name": "CSP: style-src unsafe-hashes",
+          "risk_level": "Medium",
+          "category": "HTTP Security Headers",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 5
+          }
+        },
+        {
+          "alert_id": "10056",
+          "alert_name": "X-Debug-Token Information Leak",
+          "risk_level": "Low",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 2,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "10057",
+          "alert_name": "Username Hash Found",
+          "risk_level": "Informational",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 1,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 4
+          }
+        },
+        {
+          "alert_id": "10062",
+          "alert_name": "PII Disclosure",
+          "risk_level": "High",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 2,
+            "EaseOfExploitation": 5
+          }
+        },
+        {
+          "alert_id": "10095",
+          "alert_name": "Backup File Disclosure",
+          "risk_level": "Medium",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 2,
+            "EaseOfExploitation": 5
+          }
+        },
+        {
+          "alert_id": "10098",
+          "alert_name": "Cross-Domain Misconfiguration",
+          "risk_level": "Medium",
+          "category": "API Security",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 4,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "10105-1",
+          "alert_name": "Authentication Credentials Captured",
+          "risk_level": "Medium",
+          "category": "Authentication & Session Management",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 4,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "10105-2",
+          "alert_name": "Weak Authentication Method",
+          "risk_level": "Medium",
+          "category": "Authentication & Session Management",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 4,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "10107",
+          "alert_name": "Httpoxy \u00e2\u20ac\u201c Proxy Header Misuse",
+          "risk_level": "High",
+          "category": "HTTP Security Headers",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 5
+          }
+        },
+        {
+          "alert_id": "10108",
+          "alert_name": "Reverse Tabnabbing",
+          "risk_level": "Medium",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 4
+          }
+        },
+        {
+          "alert_id": "10115-1",
+          "alert_name": "Script Served From Malicious Domain (polyfill)",
+          "risk_level": "High",
+          "category": "Injection",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "10116",
+          "alert_name": "ZAP is Out of Date",
+          "risk_level": "Medium",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 4
+          }
+        },
+        {
+          "alert_id": "10202",
+          "alert_name": "Absence of Anti-CSRF Tokens",
+          "risk_level": "Medium",
+          "category": "API Security",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 4,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "20012",
+          "alert_name": "Anti-CSRF Tokens Check",
+          "risk_level": "Medium",
+          "category": "API Security",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 4,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "20015",
+          "alert_name": "Heartbleed OpenSSL Vulnerability",
+          "risk_level": "High",
+          "category": "Transport Security",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 2
+          }
+        },
+        {
+          "alert_id": "20016-1",
+          "alert_name": "Cross-Domain Misconfiguration \u00e2\u20ac\u201c Adobe Read",
+          "risk_level": "High",
+          "category": "API Security",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 4,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "20017",
+          "alert_name": "Source Code Disclosure \u00e2\u20ac\u201c CVE-2012-1823",
+          "risk_level": "High",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "20018",
+          "alert_name": "Remote Code Execution \u00e2\u20ac\u201c CVE-2012-1823",
+          "risk_level": "High",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "20019-1",
+          "alert_name": "External Redirect",
+          "risk_level": "High",
+          "category": "API Security",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 4,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "30001",
+          "alert_name": "Buffer Overflow",
+          "risk_level": "Medium",
+          "category": "Input Validation",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 4,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "40009",
+          "alert_name": "Server Side Include",
+          "risk_level": "High",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 4
+          }
+        },
+        {
+          "alert_id": "40012",
+          "alert_name": "Cross Site Scripting (Reflected)",
+          "risk_level": "High",
+          "category": "Injection",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "40014",
+          "alert_name": "Cross Site Scripting (Persistent)",
+          "risk_level": "High",
+          "category": "Injection",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "40018",
+          "alert_name": "SQL Injection",
+          "risk_level": "High",
+          "category": "Injection",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 2
+          }
+        },
+        {
+          "alert_id": "40024",
+          "alert_name": "SQL Injection \u00e2\u20ac\u201c SQLite (Time Based)",
+          "risk_level": "High",
+          "category": "Injection",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 2
+          }
+        },
+        {
+          "alert_id": "40026",
+          "alert_name": "Cross Site Scripting (DOM Based)",
+          "risk_level": "High",
+          "category": "Injection",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "40032",
+          "alert_name": ".htaccess Information Leak",
+          "risk_level": "Medium",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 4
+          }
+        },
+        {
+          "alert_id": "40034",
+          "alert_name": ".env Information Leak",
+          "risk_level": "Medium",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 4
+          }
+        },
+        {
+          "alert_id": "40035",
+          "alert_name": "Hidden File Found",
+          "risk_level": "Medium",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 4
+          }
+        },
+        {
+          "alert_id": "40043-1",
+          "alert_name": "Log4Shell (CVE-2021-44228)",
+          "risk_level": "High",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 2
+          }
+        },
+        {
+          "alert_id": "40045",
+          "alert_name": "Spring4Shell",
+          "risk_level": "High",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 2
+          }
+        },
+        {
+          "alert_id": "40046",
+          "alert_name": "Server Side Request Forgery",
+          "risk_level": "High",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 4
+          }
+        },
+        {
+          "alert_id": "40047",
+          "alert_name": "Text4Shell (CVE-2022-42889)",
+          "risk_level": "High",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 2
+          }
+        },
+        {
+          "alert_id": "90017",
+          "alert_name": "XSLT Injection",
+          "risk_level": "Medium",
+          "category": "Injection",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "90018",
+          "alert_name": "Advanced SQL Injection",
+          "risk_level": "High",
+          "category": "Injection",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 2
+          }
+        },
+        {
+          "alert_id": "90019-1",
+          "alert_name": "Server Side Code Injection \u00e2\u20ac\u201c PHP",
+          "risk_level": "High",
+          "category": "Injection",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "90020",
+          "alert_name": "Remote OS Command Injection",
+          "risk_level": "High",
+          "category": "Injection",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "90021",
+          "alert_name": "XPath Injection",
+          "risk_level": "High",
+          "category": "Injection",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "90022",
+          "alert_name": "Application Error Disclosure",
+          "risk_level": "Medium",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 3,
+            "PotentialImpact": 2,
+            "EaseOfExploitation": 5
+          }
+        },
+        {
+          "alert_id": "90023",
+          "alert_name": "XML External Entity Attack",
+          "risk_level": "High",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 4
+          }
+        },
+        {
+          "alert_id": "90024",
+          "alert_name": "Generic Padding Oracle",
+          "risk_level": "High",
+          "category": "Cryptography",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 2
+          }
+        },
+        {
+          "alert_id": "90025",
+          "alert_name": "Expression Language Injection",
+          "risk_level": "High",
+          "category": "Injection",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "90034",
+          "alert_name": "Cloud Metadata Potentially Exposed",
+          "risk_level": "High",
+          "category": "Infrastructure Security",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 3,
+            "EaseOfExploitation": 4
+          }
+        },
+        {
+          "alert_id": "90035",
+          "alert_name": "Server Side Template Injection",
+          "risk_level": "High",
+          "category": "Injection",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "90036",
+          "alert_name": "Server Side Template Injection (Blind)",
+          "risk_level": "High",
+          "category": "Injection",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 3
+          }
+        },
+        {
+          "alert_id": "90037",
+          "alert_name": "Remote OS Command Injection (Time Based)",
+          "risk_level": "High",
+          "category": "Injection",
+          "base_scores": {
+            "Severity": 5,
+            "PotentialImpact": 5,
+            "EaseOfExploitation": 3
+          }
+        }
+      ]
+    },
+    "sonar_auto_mapping": {
+      "enabled": false,
+      "api_endpoint": "https://sonarqube.example.com/api/rules/search",
+      "auto_refresh_days": 7,
+      "tag_to_category": [
+        {
+          "tag": "injection",
+          "category": "Injection"
+        },
+        {
+          "tag": "crypto",
+          "category": "Cryptography"
+        },
+        {
+          "tag": "tls",
+          "category": "Transport Security"
+        },
+        {
+          "tag": "dos",
+          "category": "Input Validation"
+        },
+        {
+          "tag": "regex",
+          "category": "Input Validation"
+        },
+        {
+          "tag": "csrf",
+          "category": "CSRF"
+        },
+        {
+          "tag": "xss",
+          "category": "Injection"
+        },
+        {
+          "tag": "auth",
+          "category": "API Security"
+        },
+        {
+          "tag": "authorization",
+          "category": "API Security"
+        },
+        {
+          "tag": "serialization",
+          "category": "Injection"
+        },
+        {
+          "tag": "datetime",
+          "category": "Business Logic Vulnerabilities"
+        },
+        {
+          "tag": "concurrency",
+          "category": "Business Logic Vulnerabilities"
+        },
+        {
+          "tag": "error-handling",
+          "category": "Information Disclosure"
+        },
+        {
+          "tag": "logging",
+          "category": "Information Disclosure"
+        },
+        {
+          "tag": "network",
+          "category": "Transport Security"
+        },
+        {
+          "tag": "secrets",
+          "category": "Cryptography"
+        },
+        {
+          "tag": "cloud",
+          "category": "Cloud Security Posture"
+        },
+        {
+          "tag": "security",
+          "category": "Generic Security Issue"
+        },
+        {
+          "tag": "supply-chain",
+          "category": "Supply Chain Security"
+        },
+        {
+          "tag": "api",
+          "category": "API Security"
+        },
+        {
+          "tag": "mobile",
+          "category": "Mobile Security"
+        },
+        {
+          "tag": "ai-ml",
+          "category": "AI/ML Security"
+        },
+        {
+          "tag": "devops",
+          "category": "DevSecOps Pipeline Security"
+        },
+        {
+          "tag": "third-party",
+          "category": "Third-Party Integration Security"
+        },
+        {
+          "tag": "infrastructure",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "privacy",
+          "category": "Data Protection & Privacy"
+        },
+        {
+          "tag": "sql",
+          "category": "Injection"
+        },
+        {
+          "tag": "sqli",
+          "category": "Injection"
+        },
+        {
+          "tag": "script",
+          "category": "Injection"
+        },
+        {
+          "tag": "command",
+          "category": "Injection"
+        },
+        {
+          "tag": "ldap",
+          "category": "Injection"
+        },
+        {
+          "tag": "xpath",
+          "category": "Injection"
+        },
+        {
+          "tag": "xml",
+          "category": "Injection"
+        },
+        {
+          "tag": "nosql",
+          "category": "Injection"
+        },
+        {
+          "tag": "deserialization",
+          "category": "Injection"
+        },
+        {
+          "tag": "cryptography",
+          "category": "Cryptography"
+        },
+        {
+          "tag": "encryption",
+          "category": "Cryptography"
+        },
+        {
+          "tag": "hash",
+          "category": "Cryptography"
+        },
+        {
+          "tag": "password",
+          "category": "Cryptography"
+        },
+        {
+          "tag": "secret",
+          "category": "Cryptography"
+        },
+        {
+          "tag": "key",
+          "category": "Cryptography"
+        },
+        {
+          "tag": "certificate",
+          "category": "Cryptography"
+        },
+        {
+          "tag": "ssl",
+          "category": "Transport Security"
+        },
+        {
+          "tag": "random",
+          "category": "Cryptography"
+        },
+        {
+          "tag": "weak-crypto",
+          "category": "Cryptography"
+        },
+        {
+          "tag": "transport",
+          "category": "Transport Security"
+        },
+        {
+          "tag": "https",
+          "category": "Transport Security"
+        },
+        {
+          "tag": "http",
+          "category": "Transport Security"
+        },
+        {
+          "tag": "protocol",
+          "category": "Transport Security"
+        },
+        {
+          "tag": "communication",
+          "category": "Transport Security"
+        },
+        {
+          "tag": "insecure-transport",
+          "category": "Transport Security"
+        },
+        {
+          "tag": "header",
+          "category": "HTTP Security Headers"
+        },
+        {
+          "tag": "headers",
+          "category": "HTTP Security Headers"
+        },
+        {
+          "tag": "csp",
+          "category": "HTTP Security Headers"
+        },
+        {
+          "tag": "hsts",
+          "category": "HTTP Security Headers"
+        },
+        {
+          "tag": "cors",
+          "category": "API Security"
+        },
+        {
+          "tag": "content-type",
+          "category": "HTTP Security Headers"
+        },
+        {
+          "tag": "x-frame-options",
+          "category": "HTTP Security Headers"
+        },
+        {
+          "tag": "clickjacking",
+          "category": "HTTP Security Headers"
+        },
+        {
+          "tag": "referrer",
+          "category": "HTTP Security Headers"
+        },
+        {
+          "tag": "rest",
+          "category": "API Security"
+        },
+        {
+          "tag": "authentication",
+          "category": "API Security"
+        },
+        {
+          "tag": "oauth",
+          "category": "API Security"
+        },
+        {
+          "tag": "jwt",
+          "category": "API Security"
+        },
+        {
+          "tag": "session",
+          "category": "API Security"
+        },
+        {
+          "tag": "rate-limit",
+          "category": "API Security"
+        },
+        {
+          "tag": "config",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "configuration",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "permission",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "access",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "privilege",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "file",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "directory",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "path",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "traversal",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "inclusion",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "aws",
+          "category": "Cloud Security Posture"
+        },
+        {
+          "tag": "azure",
+          "category": "Cloud Security Posture"
+        },
+        {
+          "tag": "gcp",
+          "category": "Cloud Security Posture"
+        },
+        {
+          "tag": "kubernetes",
+          "category": "Cloud Security Posture"
+        },
+        {
+          "tag": "docker",
+          "category": "Cloud Security Posture"
+        },
+        {
+          "tag": "container",
+          "category": "Cloud Security Posture"
+        },
+        {
+          "tag": "iam",
+          "category": "Cloud Security Posture"
+        },
+        {
+          "tag": "s3",
+          "category": "Cloud Security Posture"
+        },
+        {
+          "tag": "dependency",
+          "category": "Supply Chain Security"
+        },
+        {
+          "tag": "dependencies",
+          "category": "Supply Chain Security"
+        },
+        {
+          "tag": "package",
+          "category": "Supply Chain Security"
+        },
+        {
+          "tag": "library",
+          "category": "Supply Chain Security"
+        },
+        {
+          "tag": "vendor",
+          "category": "Third-Party Integration Security"
+        },
+        {
+          "tag": "external",
+          "category": "Third-Party Integration Security"
+        },
+        {
+          "tag": "ci",
+          "category": "DevSecOps Pipeline Security"
+        },
+        {
+          "tag": "cd",
+          "category": "DevSecOps Pipeline Security"
+        },
+        {
+          "tag": "pipeline",
+          "category": "DevSecOps Pipeline Security"
+        },
+        {
+          "tag": "build",
+          "category": "DevSecOps Pipeline Security"
+        },
+        {
+          "tag": "deployment",
+          "category": "DevSecOps Pipeline Security"
+        },
+        {
+          "tag": "artifact",
+          "category": "DevSecOps Pipeline Security"
+        },
+        {
+          "tag": "business-logic",
+          "category": "Business Logic Vulnerabilities"
+        },
+        {
+          "tag": "workflow",
+          "category": "Business Logic Vulnerabilities"
+        },
+        {
+          "tag": "race",
+          "category": "Business Logic Vulnerabilities"
+        },
+        {
+          "tag": "timing",
+          "category": "Business Logic Vulnerabilities"
+        },
+        {
+          "tag": "logic",
+          "category": "Business Logic Vulnerabilities"
+        },
+        {
+          "tag": "gdpr",
+          "category": "Data Protection & Privacy"
+        },
+        {
+          "tag": "pii",
+          "category": "Data Protection & Privacy"
+        },
+        {
+          "tag": "personal-data",
+          "category": "Data Protection & Privacy"
+        },
+        {
+          "tag": "data-protection",
+          "category": "Data Protection & Privacy"
+        },
+        {
+          "tag": "consent",
+          "category": "Data Protection & Privacy"
+        },
+        {
+          "tag": "retention",
+          "category": "Data Protection & Privacy"
+        },
+        {
+          "tag": "android",
+          "category": "Mobile Security"
+        },
+        {
+          "tag": "ios",
+          "category": "Mobile Security"
+        },
+        {
+          "tag": "app",
+          "category": "Mobile Security"
+        },
+        {
+          "tag": "ai",
+          "category": "AI/ML Security"
+        },
+        {
+          "tag": "ml",
+          "category": "AI/ML Security"
+        },
+        {
+          "tag": "machine-learning",
+          "category": "AI/ML Security"
+        },
+        {
+          "tag": "model",
+          "category": "AI/ML Security"
+        },
+        {
+          "tag": "disclosure",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "information",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "leak",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "exposure",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "error",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "debug",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "log",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "validation",
+          "category": "Injection"
+        },
+        {
+          "tag": "input",
+          "category": "Injection"
+        },
+        {
+          "tag": "sanitization",
+          "category": "Injection"
+        },
+        {
+          "tag": "encoding",
+          "category": "Injection"
+        },
+        {
+          "tag": "transport",
+          "category": "Transport Security"
+        },
+        {
+          "tag": "ssl",
+          "category": "Transport Security"
+        },
+        {
+          "tag": "tls",
+          "category": "Transport Security"
+        },
+        {
+          "tag": "cert",
+          "category": "Transport Security"
+        },
+        {
+          "tag": "certificate",
+          "category": "Transport Security"
+        },
+        {
+          "tag": "crypto",
+          "category": "Cryptography"
+        },
+        {
+          "tag": "encryption",
+          "category": "Cryptography"
+        },
+        {
+          "tag": "redos",
+          "category": "Injection"
+        },
+        {
+          "tag": "vulnerability",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "weakness",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "flaw",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "java",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "python",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "javascript",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "typescript",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "csharp",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "php",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "ruby",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "go",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "rust",
+          "category": "Infrastructure Security"
+        },
+        {
+          "tag": "cpp",
+          "category": "Infrastructure Security"
+        }
+      ],
+      "last_updated": "2024-10-25T07:45:00",
+      "comprehensive_mappings_applied": true
+    },
+    "scoring": {
+      "sonar_severity_map": {
+        "BLOCKER": 8.5,
+        "CRITICAL": 7.5,
+        "MAJOR": 5.0,
+        "MINOR": 2.5,
+        "INFO": 1.0,
+        "HIGH": 7.5,
+        "MEDIUM": 5.0,
+        "LOW": 2.5,
+        "INFORMATIONAL": 1.0
+      },
+      "zap_risk_map": {
+        "High": 7.5,
+        "Medium": 5.0,
+        "Low": 2.5,
+        "Informational": 1.0
+      },
+      "formula": "(AdjSeverity + AdjPotentialImpact + AdjEaseOfExploitation) "
+    },
+    "service": {
+      "service_authn": true,
+      "rate_limiting_enabled": true,
+      "memory_limits_enforced": true,
+      "cpu_limits_enforced": true
+    }
+  }
+}
