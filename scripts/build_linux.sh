@@ -24,6 +24,7 @@ export PYTHONPATH="build_staging"
 # Build Nuitka arguments dynamically based on file existence
 NUITKA_ARGS=(
     "--standalone"
+    "--output-filename=main"
     "--assume-yes-for-downloads"
     "--include-data-dir=build_staging/appsecai/risk_profiles=appsecai/risk_profiles"
     "--include-data-dir=external=external"
@@ -46,10 +47,19 @@ echo "📦 STEP 3 (Onefile Virtualization): Packing Standalone directory via App
 mkdir -p dist/AppSecAI.AppDir/usr/bin
 cp -r dist/main.dist/* dist/AppSecAI.AppDir/usr/bin/
 
+# Ensure the executable is named 'main' inside usr/bin
+if [ -f "dist/AppSecAI.AppDir/usr/bin/main.bin" ] && [ ! -f "dist/AppSecAI.AppDir/usr/bin/main" ]; then
+    mv dist/AppSecAI.AppDir/usr/bin/main.bin dist/AppSecAI.AppDir/usr/bin/main
+fi
+
+chmod +x dist/AppSecAI.AppDir/usr/bin/*
+
 # Create required AppImage files
 cat << 'EOF' > dist/AppSecAI.AppDir/AppRun
 #!/bin/sh
 HERE="$(dirname "$(readlink -f "${0}")")"
+export PATH="${HERE}/usr/bin:${PATH}"
+export LD_LIBRARY_PATH="${HERE}/usr/bin:${LD_LIBRARY_PATH}"
 exec "${HERE}/usr/bin/main" "$@"
 EOF
 chmod +x dist/AppSecAI.AppDir/AppRun
