@@ -1,0 +1,37 @@
+# Security Vulnerability Fixer Configuration
+
+# Input/Output settings
+input_csv: ""
+output_dir: ""
+batch_size: 50           # Process up to 50 vulnerabilities at a time
+commit_batch_size: 50    # Commit up to 50 fixes in a single commit
+pr_batch_size: 50        # Size of the pr raised in the github with the solution
+
+# GitHub configuration
+github:
+  token: ""
+  repo: ""
+  branch_name: "security-fixes-auto"  # Will be appended with timestamp
+  pr_title: "Fix Security Hotspots"   # Will be appended with timestamp
+  base_branch: "main"                 # Base branch for PR
+  clone_dir:              # Temporary directory for clone
+
+# LLM configuration (Ollama)
+llm:
+  model: "qwen2.5-coder:7b-instruct"
+  url: "http://74.225.200.165:11434" #replace with VM url
+  # Prompt template - variables will be replaced with actual vulnerability data
+  prompt_template: |
+    You are a security expert reviewing code with potential security vulnerabilities. 
+    Please fix the following code to address the security hotspot issue.
+
+    Security Issue: {message}
+    Rule Key: {ruleKey}
+    Vulnerability Probability: {vulnerabilityProbability}
+
+    Original Code:
+    ```
+    {extracted_code}
+    ```
+
+    Provide only the fixed code without explanations. Keep the same structure and formatting, only change what's needed to fix the security issue.
