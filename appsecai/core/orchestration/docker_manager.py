@@ -4,6 +4,7 @@ import time
 import os
 from typing import Optional, Dict, Any
 from appsecai.common.exceptions import DockerNotFoundError, DockerExecutionError
+from appsecai.common.utils import get_clean_env
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +23,7 @@ class DockerManager:
     def is_docker_available(self) -> bool:
         """Check if Docker is installed and running."""
         try:
-            result = subprocess.run(["docker", "info"], capture_output=True, text=True, check=False)
+            result = subprocess.run(["docker", "info"], capture_output=True, text=True, check=False, env=get_clean_env())
             return result.returncode == 0
         except FileNotFoundError:
             return False
@@ -32,10 +33,10 @@ class DockerManager:
         logger.info(f"Checking for Docker image: {self.image}")
         try:
             # Check if image exists
-            result = subprocess.run(["docker", "images", "-q", self.image], capture_output=True, text=True, check=True)
+            result = subprocess.run(["docker", "images", "-q", self.image], capture_output=True, text=True, check=True, env=get_clean_env())
             if not result.stdout.strip():
                 logger.info(f"Image {self.image} not found locally. Pulling (this may take a few minutes)...")
-                subprocess.run(["docker", "pull", self.image], check=True)
+                subprocess.run(["docker", "pull", self.image], check=True, env=get_clean_env())
                 logger.info(f"Successfully pulled {self.image}")
             else:
                 logger.info(f"Image {self.image} is already present.")
@@ -45,10 +46,10 @@ class DockerManager:
     def ensure_network_exists(self):
         """Ensure the shared Docker network exists."""
         try:
-            result = subprocess.run(["docker", "network", "ls", "--filter", f"name={self.network_name}", "-q"], capture_output=True, text=True, check=True)
+            result = subprocess.run(["docker", "network", "ls", "--filter", f"name={self.network_name}", "-q"], capture_output=True, text=True, check=True, env=get_clean_env())
             if not result.stdout.strip():
                 logger.info(f"Creating Docker network: {self.network_name}")
-                subprocess.run(["docker", "network", "create", self.network_name], check=True)
+                subprocess.run(["docker", "network", "create", self.network_name], check=True, env=get_clean_env())
         except subprocess.CalledProcessError as e:
             logger.warning(f"Failed to manage Docker network: {e}. Falling back to default bridge.")
 
@@ -57,7 +58,7 @@ class DockerManager:
         try:
             result = subprocess.run(
                 ["docker", "inspect", "-f", "{{.State.Status}}|{{.Config.Image}}", self.container_name],
-                capture_output=True, text=True, check=False
+                capture_output=True, text=True, check=False, env=get_clean_env()
             )
             if result.returncode != 0:
                 return {"status": None, "image": None}
@@ -85,7 +86,7 @@ class DockerManager:
             logger.info(f"Container {self.container_name} is already running.")
             self.ensure_network_exists()
             # Try to connect to network if not already connected (ignores error if already connected)
-            subprocess.run(["docker", "network", "connect", self.network_name, self.container_name], capture_output=True)
+            subprocess.run(["docker", "network", "connect", self.network_name, self.container_name], capture_output=True, env=get_clean_env())
             return True
             
         if status == "exited":
@@ -111,7 +112,7 @@ class DockerManager:
         ]
         
         try:
-            subprocess.run(cmd, check=True)
+            subprocess.run(cmd, check=True, env=get_clean_env())
             logger.info(f"Container {self.container_name} started successfully.")
             return True
         except subprocess.CalledProcessError as e:
@@ -138,14 +139,14 @@ class DockerManager:
         try:
             # 1. Create a temporary data holder container
             logger.info(f"📦 Creating temporary sync container: {sync_container}")
-            subprocess.run(["docker", "create", "--name", sync_container, "-v", "/usr/src", "busybox"], check=True, capture_output=True)
+            subprocess.run(["docker", "create", "--name", sync_container, "-v", "/usr/src", "busybox"], check=True, capture_output=True, env=get_clean_env())
             
             # 2. Copy files from host to container (GURANTEED to work on Windows even without drive sharing)
             logger.info(f"🚚 Syncing files from {abs_source_dir} to Docker (bypassing drive sharing restrictions)...")
             # Normalize path for docker cp (use forward slashes for better compatibility)
             normalized_source = abs_source_dir.replace('\\', '/')
             # Using /. at the end of source path copies contents, not the folder itself
-            subprocess.run(["docker", "cp", f"{normalized_source}/.", f"{sync_container}:/usr/src"], check=True, capture_output=True)
+            subprocess.run(["docker", "cp", f"{normalized_source}/.", f"{sync_container}:/usr/src"], check=True, capture_output=True, env=get_clean_env())
             
             # Use the container name as the host if we are on the same network
             internal_url = f"http://{self.container_name}:9000"
@@ -173,7 +174,7 @@ class DockerManager:
             logger.info(f"Executing scanner with internally synced volumes...")
             # SonarScanner may return non-zero codes (like 1, 2, or 3) if the Quality Gate fails. 
             # We treat these as a success for the orchestration phase so we can fetch the issues.
-            process = subprocess.run(cmd, check=False)
+            process = subprocess.run(cmd, check=False, env=get_clean_env())
             if process.returncode not in [0, 1, 2, 3]:
                 raise DockerExecutionError(f"Scanner container failed with exit code {process.returncode}")
                 
@@ -185,13 +186,13 @@ class DockerManager:
         finally:
             # 3. Always cleanup the sync container
             logger.info(f"🧹 Cleaning up sync container: {sync_container}")
-            subprocess.run(["docker", "rm", "-v", sync_container], capture_output=True)
+            subprocess.run(["docker", "rm", "-v", sync_container], capture_output=True, env=get_clean_env())
 
     def stop_container(self):
         """Stops the container if it is running."""
         try:
             logger.info(f"Stopping container {self.container_name}...")
-            subprocess.run(["docker", "stop", self.container_name], capture_output=True)
+            subprocess.run(["docker", "stop", self.container_name], capture_output=True, env=get_clean_env())
         except Exception as e:
             logger.warning(f"Failed to stop container: {e}")
 
@@ -200,11 +201,11 @@ class DockerManager:
         self.stop_container()
         try:
             logger.info(f"Removing container {self.container_name}...")
-            subprocess.run(["docker", "rm", self.container_name], capture_output=True)
+            subprocess.run(["docker", "rm", self.container_name], capture_output=True, env=get_clean_env())
             logger.info(f"Removing network {self.network_name}...")
-            subprocess.run(["docker", "network", "rm", self.network_name], capture_output=True)
+            subprocess.run(["docker", "network", "rm", self.network_name], capture_output=True, env=get_clean_env())
             if remove_volumes:
                 volume_name = f"{self.container_name}-data"
-                subprocess.run(["docker", "volume", "rm", volume_name], capture_output=True)
+                subprocess.run(["docker", "volume", "rm", volume_name], capture_output=True, env=get_clean_env())
         except Exception as e:
             logger.warning(f"Failed to cleanup Docker resources: {e}")

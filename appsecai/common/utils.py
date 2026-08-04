@@ -67,6 +67,18 @@ def get_executable_path() -> str:
     return sys.executable
 
 
+def get_clean_env() -> dict:
+    """Return environment dict with AppImage/Nuitka LD_LIBRARY_PATH stripped for host subprocess calls."""
+    env = os.environ.copy()
+    if "LD_LIBRARY_PATH" in env:
+        paths = [p for p in env["LD_LIBRARY_PATH"].split(":") if "appimage_extracted" not in p and "AppDir" not in p]
+        if paths:
+            env["LD_LIBRARY_PATH"] = ":".join(paths)
+        else:
+            env.pop("LD_LIBRARY_PATH", None)
+    return env
+
+
 def fix_tls_certificate_paths():
     """
     Fix TLS/SSL certificate paths for misconfigured environments.

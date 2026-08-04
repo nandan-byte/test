@@ -9,6 +9,8 @@ from bs4 import BeautifulSoup
 from glob import glob
 
 
+from appsecai.common.utils import get_clean_env
+
 # ======================
 # Utility Functions
 # ======================
@@ -25,7 +27,8 @@ def run_zap_command(cmd, cwd):
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,
-        bufsize=1
+        bufsize=1,
+        env=get_clean_env()
     )
     
     stdout_lines = []
@@ -492,14 +495,14 @@ def run_zap_scan(
             installer = os.path.join(project_root, "external", "zap", "install_zap.bat")
             if os.path.exists(installer):
                 import subprocess
-                subprocess.run([installer], cwd=project_root, shell=True)
+                subprocess.run([installer], cwd=project_root, shell=True, env=get_clean_env())
             else:
                 return {"success": False, "message": "Installer script missing: " + installer, "error": "Installer script missing."}
         else:
             installer = os.path.join(project_root, "external", "zap", "install_zap.sh")
             if os.path.exists(installer):
                 import subprocess
-                subprocess.run(["bash", installer], cwd=project_root)
+                subprocess.run(["bash", installer], cwd=project_root, env=get_clean_env())
             else:
                 return {"success": False, "message": "Installer script missing: " + installer, "error": "Installer script missing."}
         
